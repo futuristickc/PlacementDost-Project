@@ -1,21 +1,22 @@
 // import logo from './logo.svg';
 import './App.css';
 import { Navbar, Nav, Form, FormControl, Button, Container, Row, Col } from 'react-bootstrap';
+import ProductList from './Components/ProductList';
 
 function App() {
   return (
     <div className="App">
-      <Navbar>
-        <Navbar.Brand>E-Commerce</Navbar.Brand>
-        <Nav>
-          <Nav.Link>Home</Nav.Link>
-          <Nav.Link>Products</Nav.Link>
-          <Nav.Link>Cart</Nav.Link>
+      <Navbar bg='dark' variant='dark'>
+        <Navbar.Brand href='#home'>E-Commerce</Navbar.Brand>
+        <Nav className='mr-auto'>
+          <Nav.Link href='#home'>Home</Nav.Link>
+          <Nav.Link href='#features'>Products</Nav.Link>
+          <Nav.Link href='#pricing'>Cart</Nav.Link>
         </Nav>
         
-        <Form>
-          <FormControl />
-          <Button>Search</Button>
+        <Form inline>
+          <FormControl type='text' placeholder='Search' className='mr-sm-2' />
+          <Button variant='outline-info'>Search</Button>
         </Form>
       </Navbar>
 
@@ -26,6 +27,7 @@ function App() {
             <p>Browse and shop your favorite products</p>
           </Col>
         </Row>
+        <ProductList />
       </Container>
     </div>
   );
