@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -12,7 +13,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //Connect to MongoDB
-const mongoURI = 'mongodb+srv://Futuristickc:%40Lance123@e-commerce.1kdjkl0.mongodb.net/?retryWrites=true&w=majority&appName=E-Commerce';
+const mongoURI = process.env.MONGO_URI;
 // mongoose.connect(mongoURI, {
 //     useNewUrlParser: true,
 //     useUnifiedTopology: true,
