@@ -24,41 +24,47 @@ router.get('/products', async (req, res) => {
 });
 
 //Get single product by id
-router.get('/product/:id', async (req, res) => {
-    try {
-        const product = await Product.findById(req.params.id);
-        if(!product) {
-            return res.status(404).send();
-        }
-        res.status(200).send(product);
-    } catch (error) {
-        res.status(500).send(error);
-    }
+router.get('/products/:id', getProduct, async (req, res) => {
+    res.json(res.product);
 });
 
 //Update a product by id
-router.put('/product/:id', async (req, res) => {
+router.put('/products/:id', getProduct, async (req, res) => {
     try {
-        const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true});
-        if (!product) {
-            return res.status(404).send();
-        }
-        res.status(200).send(product);
-    } catch (error) {
-        res.status(400).send(error);
+        console.log('Request Body:', req.body);
+        Object.assign(res.product, req.body)
+        const updatedProduct = await res.product.save();
+        res.json(updatedProduct);
+        } catch (err) {
+        res.status(400).json({ message: err.message });
     }
 });
 
-router.delete('/products/:id', async(req, res) => {
+//Delet a product
+router.delete('/products/:id', getProduct, async(req, res) => {
     try {
-        const product = await Product.findByIdAndDelete(req.params.id);
-        if(!product) {
-            return res.status(404).send();
-        }
-        res.status(200).send(product);
-    } catch (error) {
-        res.status(500).send(error);
+        console.log('Deleting product:', res.product);
+        await Product.deleteOne({ _id: req.params.id });
+        res.json({ message: 'Deleted Product' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 });
+
+//Middleware function to Get Products by id
+async function getProduct(req, res, next) {
+    let product;
+    try {
+        product = await Product.findById(req.params.id);
+        if(!product) {
+            return res.status(404).json({ message: 'Cannot find product' })
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+
+    res.product = product;
+    next();
+}
 
 module.exports = router;
