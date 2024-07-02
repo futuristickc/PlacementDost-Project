@@ -1,6 +1,6 @@
-const User = require('../models/user');
+const User = require('../models/User');
 
-const createUser = async(userData) => {
+const createUser = async (userData) => {
     try {
         const user = await User.create(userData);
         return user;
@@ -9,28 +9,27 @@ const createUser = async(userData) => {
     }
 };
 
-const getUserById = async(userId) => {
+const getUserById = async (userId) => {
     try {
-        const user = await User.findByPk(userId);
+        const user = await User.findById(userId);
         return user;
     } catch (error) {
         throw error;
     }
 };
 
-const updateUser = async(userId, updatedUser) => {
+const updateUser = async (userId, updatedData) => {
     try {
-        await User.update(updatedUser, { where: { id: userId } });
-        const updatedUser = await User.findByPk(userId);
-        return updatedUser;
+        const user = await User.findByIdAndUpdate(userId, updatedData, { new: ture });
+        return user;
     } catch (error) {
         throw error;
     }
 };
 
-const deleteUser = async(userId) => {
+const deleteUser = async (userId) => {
     try {
-        await User.destroy({ where: { id: userId } });
+        await User.findByIdAndDelete(userId);
     } catch (error) {
         throw error;
     }
