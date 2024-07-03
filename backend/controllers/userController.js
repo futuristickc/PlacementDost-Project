@@ -9,6 +9,15 @@ const createUser = async (req, res) => {
     }
 };
 
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await userService.getAllUsers();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 const getUserById = async (req, res) => {
     try {
         const user = await userService.getUserById(req.params.id);
@@ -38,6 +47,7 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
     createUser,
+    getAllUsers,
     getUserById,
     updateUser,
     deleteUser,

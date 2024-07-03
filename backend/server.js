@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const productRoutes = require('./routes/productRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -44,3 +45,4 @@ app.listen(PORT, () => {
 
 //Use routes
 app.use('/api', productRoutes);
+app.use('/api', userRoutes);

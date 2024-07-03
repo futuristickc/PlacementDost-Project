@@ -9,6 +9,11 @@ const createUser = async (userData) => {
     }
 };
 
+const getAllUsers = async () => {
+    const user = await User.find();
+    return user;
+}
+
 const getUserById = async (userId) => {
     try {
         const user = await User.findById(userId);
@@ -37,6 +42,7 @@ const deleteUser = async (userId) => {
 
 module.exports = {
     createUser,
+    getAllUsers,
     getUserById,
     updateUser,
     deleteUser,
