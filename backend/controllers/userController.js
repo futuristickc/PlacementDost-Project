@@ -52,16 +52,18 @@ const deleteUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await userService.getUsersByEmail(email);
-        if(!user) {
-            return res.status(404).json({ error: "User not found" });
-        }
-        const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch) {
-            return res.status(400).json({ error: "Invalid Credentials" })
-        }
-        const token = jwt.sign({ id: user_id, role: user.role }, process.env.JWT_SECRET);
-        res.status(200).json({ token });
+        const { token, userId } = await userService.loginUser(email, password);
+        res.status(200).json({ token, userId });
+        // const user = await userService.getUsersByEmail(email);
+        // if(!user) {
+        //     return res.status(404).json({ error: "User not found" });
+        // }
+        // const isMatch = await bcrypt.compare(password, user.password);
+        // if(!isMatch) {
+        //     return res.status(400).json({ error: "Invalid Credentials" })
+        // }
+        // const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET);
+        // res.status(200).json({ token });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

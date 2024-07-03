@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 
 const authMiddleware = (requiredRole) => (req, res, next)  => {
-    const token = req.header('Authorization').replace('Bearer ', '');
+    const token = req.header('Authorization')?.replace('Bearer ', '');
     if(!token) {
         return res.status(401).json({ error: 'No token, authorization denied' });
     }
@@ -14,6 +14,7 @@ const authMiddleware = (requiredRole) => (req, res, next)  => {
         }
         next();
     } catch (error) {
+        console.log('Token verification error:', error.message);
         res.status(401).json({ error: 'Token is not valid' });
     }
 };
