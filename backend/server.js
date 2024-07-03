@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -46,3 +47,4 @@ app.listen(PORT, () => {
 //Use routes
 app.use('/api', productRoutes);
 app.use('/api', userRoutes);
+app.use('/api', paymentRoutes);
