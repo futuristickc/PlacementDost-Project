@@ -47,4 +47,4 @@ app.listen(PORT, () => {
 //Use routes
 app.use('/api', productRoutes);
 app.use('/api', userRoutes);
-app.use('/api', paymentRoutes);
+app.use('/api/payment', paymentRoutes);
