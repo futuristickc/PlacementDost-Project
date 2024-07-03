@@ -1,13 +1,18 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const userService = require('../services/userService');
 
 const createUser = async (req, res) => {
     try {
-        const user = await userService.createUser(req.body);
+        const { username, email, password} = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await userService.createUser({ username, email, password: hashedPassword});
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ error: error.message })
     }
 };
+
 
 const getAllUsers = async (req, res) => {
     try {
@@ -44,6 +49,23 @@ const deleteUser = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await userService.getUsersByEmail(email);
+        if(!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch) {
+            return res.status(400).json({ error: "Invalid Credentials" })
+        }
+        const token = jwt.sign({ id: user_id, role: user.role }, process.env.JWT_SECRET);
+        res.status(200).json({ token });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 module.exports = {
     createUser,
@@ -51,5 +73,6 @@ module.exports = {
     getUserById,
     updateUser,
     deleteUser,
+    loginUser,
 }
 

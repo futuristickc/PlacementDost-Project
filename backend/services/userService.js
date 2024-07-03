@@ -23,6 +23,15 @@ const getUserById = async (userId) => {
     }
 };
 
+const getUserByEmail = async (email) => {
+    try {
+        const user = await User.findOne(email);
+        return user;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const updateUser = async (userId, updatedData) => {
     try {
         const user = await User.findByIdAndUpdate(userId, updatedData, { new: ture });
@@ -44,6 +53,7 @@ module.exports = {
     createUser,
     getAllUsers,
     getUserById,
+    getUserByEmail,
     updateUser,
     deleteUser,
 };
