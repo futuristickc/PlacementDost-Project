@@ -17,13 +17,13 @@ function ProductList() {
     return (
         <Row>
             {products.map((product) => (
-                <Col>
+                <Col key={product.id} sm={4}>
                     <Card>
                         <Card.Body>
                             <Card.Title>{product.name}</Card.Title>
                             <Card.Text>{product.description}</Card.Text>
                             <Card.Text>{product.price}</Card.Text>
-                            <Button onClick={() => addToCart(product)}>
+                            <Button  variant="primary" onClick={() => addToCart(product)}>
                                 Add to Cart
                             </Button>
                         </Card.Body>

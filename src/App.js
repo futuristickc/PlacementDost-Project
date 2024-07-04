@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import { Navbar, Nav, Form, FormControl, Button, Container, Row, Col } from 'react-bootstrap';
 import ProductList from './Components/ProductList';
+import StripeWrapper from './Components/PaymentComponent';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
           <Nav.Link href='#pricing'>Cart</Nav.Link>
         </Nav>
         
-        <Form inline>
+        <Form inline="true">
           <FormControl type='text' placeholder='Search' className='mr-sm-2' />
           <Button variant='outline-info'>Search</Button>
         </Form>
@@ -29,6 +30,7 @@ function App() {
           </Col>
         </Row>
         <ProductList />
+        <StripeWrapper />
       </Container>
     </div>
   );
