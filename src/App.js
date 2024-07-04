@@ -1,16 +1,23 @@
 // import logo from './logo.svg';
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useContext } from 'react';
 import './App.css';
 import { Navbar, Nav, Form, FormControl, Button, Container, Row, Col } from 'react-bootstrap';
-import { Link, BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Link, BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import AuthContext from './context/AuthContext';
+import ProtectedRoute from './Components/ProtectedRoute';
 
 const ProductList = lazy(() => import('./Components/ProductList'));
 const ShoppingCart = lazy(() => import('./Components/ShoppingCart'));
 const Checkout = lazy(() => import('./Components/Checkout'));
+const Register = lazy(() => import('./Components/Register'));
+const Login = lazy(() => import('./Components/Login'));
 // const StripeWrapper = lazy(() => import('./Components/PaymentComponent'));
 
 
 function App() {
+  const { user } = useContext(AuthContext);
+
+
   return (
     <Router>
       <div className="App">
@@ -20,6 +27,17 @@ function App() {
             <Nav.Link as={Link} to='/'>Home</Nav.Link>
             <Nav.Link as={Link} to='/products'>Products</Nav.Link>
             <Nav.Link as={Link} to='/cart'>Cart</Nav.Link>
+            {user ? (
+              <>
+                <Nav.Link as={Link} to='/profile'>Profile</Nav.Link>
+                <Nav.Link as={Link} to='/logout'>Logout</Nav.Link>
+              </>
+            ) : (
+              <>
+                <Nav.Link as={Link} to='/register'>Register</Nav.Link>
+                <Nav.Link as={Link} to='/login'>Login</Nav.Link>
+              </>
+            )}
           </Nav>
           
           <Form inline="true">
@@ -40,8 +58,11 @@ function App() {
             <Routes>
               <Route path="/" element={<ProductList />}/>
               <Route path="/products" element={<ProductList />}/>
-              <Route path="/cart" element={<ShoppingCart />}/>
-              <Route path="/cart/checkout" element={<Checkout />}/>
+              <Route path="/cart" element={<ProtectedRoute element={<ShoppingCart />} />}/>
+              <Route path="/cart/checkout" element={<ProtectedRoute element={<Checkout />} />}/>
+              <Route path="/register" element={<Register />}/>
+              <Route path="/login" element={<Login />}/>
+              <Route path="*" element={<Navigate to='/' />}/>
             </Routes>
           </Suspense>
         </Container>
