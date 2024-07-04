@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Button, Card, Col, Row } from 'react-bootstrap'
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { CartContext } from "./CartContext";
 
 
 const products = [
@@ -11,11 +12,12 @@ const products = [
 ];
 
 function ProductList() {
-    const [cart, setCart] = useState([]);
+    const { addToCart } = useContext(CartContext);
+    // const [cart, setCart] = useState([]);
 
-    const addToCart = (product) => {
-        setCart([...cart, product]);
-    };
+    // const addToCart = (product) => {
+    //     setCart([...cart, product]);
+    // };
 
     return (
         <Row>
