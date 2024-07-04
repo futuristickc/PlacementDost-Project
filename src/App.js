@@ -2,8 +2,10 @@
 import React from 'react';
 import './App.css';
 import { Navbar, Nav, Form, FormControl, Button, Container, Row, Col } from 'react-bootstrap';
-import ProductList from './Components/ProductList';
-import StripeWrapper from './Components/PaymentComponent';
+import { Suspense, lazy } from 'react';
+
+const ProductList = lazy(() => import('./Components/ProductList'));
+const StripeWrapper = lazy(() => import('./Components/PaymentComponent'));
 
 function App() {
   return (
@@ -29,8 +31,14 @@ function App() {
             <p>Browse and shop your favorite products</p>
           </Col>
         </Row>
-        <ProductList />
-        <StripeWrapper />
+
+        <Suspense fallback={<div>Loading...</div>}>
+          <ProductList />
+        </Suspense>
+
+        <Suspense fallback={<div>Loading...</div>}>
+          <StripeWrapper />
+        </Suspense>
       </Container>
     </div>
   );
