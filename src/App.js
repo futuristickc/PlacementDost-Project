@@ -2,7 +2,7 @@
 import React, { Suspense, lazy, useContext } from 'react';
 import './App.css';
 import { Navbar, Nav, Form, FormControl, Button, Container, Row, Col } from 'react-bootstrap';
-import { Link, BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Link, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import AuthContext from './context/AuthContext';
 import ProtectedRoute from './Components/ProtectedRoute';
 
@@ -15,11 +15,16 @@ const Login = lazy(() => import('./Components/Login'));
 
 
 function App() {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  }
 
   return (
-    <Router>
+    
       <div className="App">
         <Navbar bg='dark' variant='dark'>
           <Navbar.Brand as={Link} to='/'>E-Commerce</Navbar.Brand>
@@ -30,7 +35,7 @@ function App() {
             {user ? (
               <>
                 <Nav.Link as={Link} to='/profile'>Profile</Nav.Link>
-                <Nav.Link as={Link} to='/logout'>Logout</Nav.Link>
+                <Nav.Link as={Link} to='/login' onClick={handleLogout}>Logout</Nav.Link>
               </>
             ) : (
               <>
@@ -67,7 +72,7 @@ function App() {
           </Suspense>
         </Container>
       </div>
-    </Router>
+    
   );
 }
           
